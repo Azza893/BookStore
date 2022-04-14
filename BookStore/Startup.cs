@@ -31,9 +31,10 @@ namespace BookStore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMvcWithDefaultRoute();
+                
             }
-            
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
             //app.UseRouting();
 
             //app.UseEndpoints(endpoints =>
