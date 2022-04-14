@@ -13,9 +13,9 @@ namespace BookStore.Models.Repository
             authors = new List<Author>()
             {
                 new Author{Id=1, FullName="Gain of my life"},
-                new Author{Id=1, FullName="azza dawoud"},
-                new Author{Id=1, FullName="Mohamed Elsayed"},
-                new Author{Id=1, FullName="Fatma dawoud"}
+                new Author{Id=2, FullName="azza dawoud"},
+                new Author{Id=3, FullName="Mohamed Elsayed"},
+                new Author{Id=4, FullName="Fatma dawoud"}
             };
         }
         public void Add(Author entity)

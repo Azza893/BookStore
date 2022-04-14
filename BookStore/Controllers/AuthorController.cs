@@ -27,7 +27,8 @@ namespace BookStore.Controllers
         // GET: AuthorController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var authors = authorRepository.Find(id);
+            return View(authors);
         }
 
         // GET: AuthorController/Create
@@ -39,10 +40,11 @@ namespace BookStore.Controllers
         // POST: AuthorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Author author)
         {
             try
             {
+                authorRepository.Add(author);
                 return RedirectToAction(nameof(Index));
             }
             catch
