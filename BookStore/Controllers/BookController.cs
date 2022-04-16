@@ -71,7 +71,17 @@ namespace BookStore.Controllers
         // GET: BookController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var book = bookRepository.Find(id);
+            var authorId = book.Author== null ? book.Author.Id = 0 : book.Author.Id;
+            var model = new BookAuthorViewModel
+            {
+                bookId = book.Id,
+                Title = book.Title,
+                Description = book.Description,
+                authorId = authorId,
+                authors = authorRepository.List().ToList()
+            };
+            return View(model);
         }
 
         // POST: BookController/Edit/5
