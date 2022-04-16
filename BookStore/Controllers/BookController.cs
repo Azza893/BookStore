@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BookStore.Models;
+using BookStore.Models.Repository;
+using BookStore.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,31 +12,54 @@ namespace BookStore.Controllers
 {
     public class BookController : Controller
     {
+        private readonly IBookStoreRepository<Book> bookRepository;
+        private readonly IBookStoreRepository<Author> authorRepository;
+
+
+        public BookController(IBookStoreRepository<Book> bookRepository, IBookStoreRepository<Author> authorRepository)
+        {
+            this.bookRepository = bookRepository;
+            this.authorRepository = authorRepository;
+        }
         // GET: BookController
         public ActionResult Index()
         {
-            return View();
+            var books = bookRepository.List();
+            return View(books);
         }
 
         // GET: BookController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var book = bookRepository.Find(id);
+            return View(book);
         }
 
         // GET: BookController/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new BookAuthorViewModel
+            {
+                authors = authorRepository.List().ToList()
+            };
+            return View(model);
         }
 
         // POST: BookController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(BookAuthorViewModel model)
         {
             try
             {
+                Book book = new Book()
+                {
+                    Id = model.bookId,
+                    Title = model.Title,
+                    Description = model.Description,
+                    Author = authorRepository.Find(model.authorId)
+                };
+                bookRepository.Add(book);
                 return RedirectToAction(nameof(Index));
             }
             catch
