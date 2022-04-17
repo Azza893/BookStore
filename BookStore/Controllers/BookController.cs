@@ -87,10 +87,18 @@ namespace BookStore.Controllers
         // POST: BookController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(BookAuthorViewModel model)
         {
             try
             {
+                var authorId = authorRepository.Find(model.authorId);
+                Book book = new Book()
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    Author = authorId
+                };
+                bookRepository.Update(model.bookId, book);
                 return RedirectToAction(nameof(Index));
             }
             catch
