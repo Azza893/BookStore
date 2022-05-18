@@ -28,7 +28,8 @@ namespace BookStore.Controllers
         // GET: BookController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var book = bookRepository.Find(id);
+            return View(book);
         }
 
         // GET: BookController/Create
